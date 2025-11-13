@@ -5,17 +5,24 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  Injectable,
 } from '@nestjs/common';
+import { HttpAdapterHost } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 
 @Catch()
+@Injectable()
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
 
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+
   catch(exception: unknown, host: ArgumentsHost): void {
+    const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'An unexpected error occurred. Please try again later.';
@@ -36,9 +43,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
               ? msg.join(', ')
               : message;
       }
-    }
-
-    else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+    } else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
         case 'P2002':
           status = HttpStatus.CONFLICT;
@@ -60,20 +65,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
           status = HttpStatus.BAD_REQUEST;
           message = `Database error (code: ${exception.code}).`;
       }
-    }
-
-    else if (exception instanceof Error) {
-      const numericStatus = Number(status);
-
-      if (numericStatus === Number(HttpStatus.INTERNAL_SERVER_ERROR)) {
-        message = isProd
-          ? 'Internal server error.'
-          : exception.message || message;
-      } else if (numericStatus >= 400 && numericStatus < 500) {
-        message = isProd ? 'Invalid client request.' : exception.message;
-      } else if (numericStatus >= 500) {
-        message = isProd ? 'Server failure.' : exception.message;
-      }
+    } else if (exception instanceof Prisma.PrismaClientValidationError) {
+      status = HttpStatus.BAD_REQUEST;
+      message = 'Invalid data sent to the database.';
+    } else if (exception instanceof Prisma.PrismaClientInitializationError) {
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      message = 'Database connection failed.';
+    } else if (exception instanceof Prisma.PrismaClientUnknownRequestError) {
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      message = 'Unknown database error occurred.';
+    } else if (exception instanceof Error) {
+      message = isProd
+        ? 'Internal server error.'
+        : exception.message || message;
     }
 
     const stackTrace =
@@ -85,21 +89,22 @@ export class AllExceptionsFilter implements ExceptionFilter {
       this.logger.error(`❌ ${message}`);
     }
 
-    const payload: Record<string, unknown> = {
+    const payload = {
       success: false,
       statusCode: status,
       timestamp: new Date().toISOString(),
       message,
+      ...(!isProd && {
+        error:
+          exception instanceof Error
+            ? exception.constructor.name
+            : typeof exception,
+        stack: stackTrace,
+        path: request.url,
+        method: request.method,
+      }),
     };
 
-    if (!isProd) {
-      payload.error =
-        exception instanceof Error
-          ? exception.constructor.name
-          : typeof exception;
-      payload.stack = stackTrace;
-    }
-
-    response.status(status).json(payload);
+    httpAdapter.reply(response, payload, status);
   }
 }
