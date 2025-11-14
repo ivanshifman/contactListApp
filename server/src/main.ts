@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { PrismaService } from './database/prisma.service';
-import { PORT } from 'config/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -18,6 +20,14 @@ async function bootstrap() {
   const prismaService = app.get(PrismaService);
   prismaService.enableShutdownHooks(app);
 
-  await app.listen(PORT ?? 3000);
+  app.enableCors({
+    origin: '*',
+  });
+  app.setGlobalPrefix('api/v1');
+
+  const port = configService.get<number>('PORT') ?? 3000;
+
+  await app.listen(port);
+  console.log(`Server running on port ${port}`);
 }
 void bootstrap();
