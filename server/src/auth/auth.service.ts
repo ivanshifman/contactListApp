@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import { UserEntity } from 'src/user/user.entity';
-import { LoginDto } from './dto/login';
+import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 
 export interface IPayloadLogin {

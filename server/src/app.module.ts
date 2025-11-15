@@ -10,10 +10,14 @@ import { UserModule } from './user/user.module';
 import { ContactModule } from './contact/contact.module';
 
 @Module({
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  imports: [AuthModule, UserModule, ContactModule, ConfigModule.forRoot({
-  isGlobal: true,
-} as Record<string, unknown>),],
+  imports: [
+    AuthModule,
+    UserModule,
+    ContactModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    } as Record<string, unknown>),
+  ],
   controllers: [AppController],
   providers: [
     AppService,

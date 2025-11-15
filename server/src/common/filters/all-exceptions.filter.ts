@@ -45,10 +45,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       }
     } else if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
-        case 'P2002':
+        case 'P2002': {
           status = HttpStatus.CONFLICT;
-          message = 'A record with this unique field already exists.';
+          const fields = (exception.meta?.target as string[])?.join(', ');
+          message = `A record with the field(s) [${fields}] already exists.`;
           break;
+        }
         case 'P2025':
           status = HttpStatus.NOT_FOUND;
           message = 'The requested resource could not be found.';

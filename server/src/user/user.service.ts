@@ -13,15 +13,25 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findOneUser(username: string) {
-    return this.prisma.user.findUnique({
-      where: { username },
+    return this.prisma.user.findFirst({
+      where: {
+        username: {
+          equals: username,
+          mode: 'insensitive',
+        },
+      },
     });
   }
 
   async createUser(body: CreateUserDto): Promise<UserEntity> {
     return await this.prisma.$transaction(async (tx) => {
-      const exists = await tx.user.findUnique({
-        where: { username: body.username },
+      const exists = await tx.user.findFirst({
+        where: {
+          username: {
+            equals: body.username,
+            mode: 'insensitive',
+          },
+        },
       });
 
       if (exists) {

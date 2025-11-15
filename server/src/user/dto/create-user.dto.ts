@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import {
   IsNotEmpty,
   IsString,
@@ -11,16 +10,14 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  @MinLength(4)
+  @MinLength(2)
+  @Matches(/^[A-Za-zÀ-ÿ\s]+$/, { message: 'Name must contain only letters' })
   name: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
   @MinLength(4)
-  @Transform(({ value }: { value: string }) =>
-    typeof value === 'string' ? value.trim().toLowerCase() : value,
-  )
   username: string;
 
   @IsString()

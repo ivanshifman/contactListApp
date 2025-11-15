@@ -26,8 +26,8 @@ model Contact {
   id        Int      @id @default(autoincrement())
   name      String
   lastname  String
-  email     String
-  phone     String
+  email     String   @unique
+  phone     String   @unique
   address   String
   userId    Int
   user      User     @relation(fields: [userId], references: [id])

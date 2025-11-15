@@ -1,30 +1,41 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+  Matches,
+} from 'class-validator';
 
 export class CreateContactDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  @MinLength(4)
+  @MinLength(2)
+  @Matches(/^[A-Za-zÀ-ÿ\s]+$/, { message: 'Name must contain only letters' })
   name: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  @MinLength(4)
+  @MinLength(2)
+  @Matches(/^[A-Za-zÀ-ÿ\s]+$/, {
+    message: 'Lastname must contain only letters',
+  })
   lastname: string;
 
-  @IsString()
-  @IsNotEmpty()
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(10)
+  @Matches(/^[0-9]{7,15}$/, { message: 'Phone must contain only numbers' })
   phone: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(250)
+  @MinLength(4)
   address: string;
 }
