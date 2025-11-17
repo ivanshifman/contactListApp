@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { ContactEntity } from './contact.entity';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { UpdateContactDto } from './dto/update-contact.dto';
 
 @Injectable()
 export class ContactService {
@@ -43,7 +44,7 @@ export class ContactService {
   async updateContact(
     contactId: number,
     userId: number,
-    body: CreateContactDto,
+    body: UpdateContactDto,
   ): Promise<ContactEntity> {
     await this.getContactById(contactId, userId);
 
