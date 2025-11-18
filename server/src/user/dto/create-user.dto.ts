@@ -20,7 +20,7 @@ export class CreateUserDto {
   @MaxLength(50)
   @MinLength(2)
   @Matches(/^[A-Za-zÀ-ÿ\s]+$/, { message: 'Name must contain only letters' })
-  name: string;
+  name!: string;
 
   @ApiProperty({
     example: 'john123',
@@ -33,7 +33,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MaxLength(50)
   @MinLength(4)
-  username: string;
+  username!: string;
 
   @ApiProperty({
     example: 'Passw0rd!',
@@ -47,5 +47,5 @@ export class CreateUserDto {
     message:
       'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)',
   })
-  password: string;
+  password!: string;
 }

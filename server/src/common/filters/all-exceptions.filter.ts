@@ -7,6 +7,7 @@ import {
   Logger,
   Injectable,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 import { Response, Request } from 'express';
@@ -16,7 +17,7 @@ import { Response, Request } from 'express';
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
 
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+  constructor(private readonly httpAdapterHost: HttpAdapterHost, private readonly configService: ConfigService) {}
 
   catch(exception: unknown, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
@@ -26,7 +27,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'An unexpected error occurred. Please try again later.';
-    const isProd = process.env.NODE_ENV === 'production';
+    const isProd = this.configService.get<string>('NODE_ENV') === 'production';
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();

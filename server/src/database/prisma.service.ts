@@ -5,6 +5,7 @@ import {
   INestApplication,
   Logger,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaClient, Prisma } from '@prisma/client';
 
 @Injectable()
@@ -14,14 +15,12 @@ export class PrismaService
 {
   private readonly logger = new Logger(PrismaService.name);
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
+    const nodeEnv =
+      configService.get<string>('NODE_ENV') ?? process.env.NODE_ENV;
     super({
-      log:
-        process.env.NODE_ENV === 'production'
-          ? []
-          : ['query', 'info', 'warn', 'error'],
-      errorFormat:
-        process.env.NODE_ENV === 'production' ? 'minimal' : 'colorless',
+      log: nodeEnv === 'production' ? [] : ['query', 'info', 'warn', 'error'],
+      errorFormat: nodeEnv === 'production' ? 'minimal' : 'colorless',
     });
   }
 

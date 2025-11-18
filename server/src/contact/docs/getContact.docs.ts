@@ -46,6 +46,23 @@ export function ApiGetContactsDocs() {
     }),
 
     ApiResponse({
+      status: 429,
+      description: 'Too many requests',
+      schema: {
+        example: {
+          success: false,
+          statusCode: 429,
+          timestamp: '2025-11-17T03:02:46.882Z',
+          message: 'ThrottlerException: Too Many Requests',
+          error: 'ThrottlerException',
+          stack: '...',
+          path: '/api/v1/contact',
+          method: 'GET',
+        },
+      },
+    }),
+
+    ApiResponse({
       status: 500,
       description: 'Internal Server Error',
       schema: {

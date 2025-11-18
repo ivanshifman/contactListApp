@@ -18,8 +18,6 @@ export function ApiLoginDocs() {
             username: 'Ivan_Shif',
             createdAt: '2025-11-15T05:02:27.832Z',
           },
-          access_token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6I...',
         },
       },
     }),
@@ -51,6 +49,23 @@ export function ApiLoginDocs() {
           timestamp: '2025-11-17T03:02:46.882Z',
           message: 'The credentials are incorrect',
           error: 'UnauthorizedException',
+          stack: '...',
+          path: '/api/v1/auth/login',
+          method: 'POST',
+        },
+      },
+    }),
+
+    ApiResponse({
+      status: 429,
+      description: 'Too many requests',
+      schema: {
+        example: {
+          success: false,
+          statusCode: 429,
+          timestamp: '2025-11-17T03:02:46.882Z',
+          message: 'ThrottlerException: Too Many Requests',
+          error: 'ThrottlerException',
           stack: '...',
           path: '/api/v1/auth/login',
           method: 'POST',

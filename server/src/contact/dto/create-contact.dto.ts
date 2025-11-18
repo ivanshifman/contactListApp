@@ -21,7 +21,7 @@ export class CreateContactDto {
   @MaxLength(50)
   @MinLength(2)
   @Matches(/^[A-Za-zÀ-ÿ\s]+$/, { message: 'Name must contain only letters' })
-  name: string;
+  name!: string;
 
   @ApiProperty({
     example: 'Doe',
@@ -37,7 +37,7 @@ export class CreateContactDto {
   @Matches(/^[A-Za-zÀ-ÿ\s]+$/, {
     message: 'Lastname must contain only letters',
   })
-  lastname: string;
+  lastname!: string;
 
   @ApiProperty({
     example: 'johndoe@gmail.com',
@@ -46,7 +46,7 @@ export class CreateContactDto {
   })
   @IsEmail()
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @ApiProperty({
     example: '123456789',
@@ -59,7 +59,7 @@ export class CreateContactDto {
   @IsString()
   @IsNotEmpty()
   @Matches(/^[0-9]{7,15}$/, { message: 'Phone must contain only numbers' })
-  phone: string;
+  phone!: string;
 
   @ApiProperty({
     example: '1234 Main Street',
@@ -72,5 +72,5 @@ export class CreateContactDto {
   @IsNotEmpty()
   @MaxLength(250)
   @MinLength(4)
-  address: string;
+  address!: string;
 }

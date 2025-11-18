@@ -2,9 +2,14 @@ import { INestApplication } from '@nestjs/common';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './swagger.config';
 import { SWAGGER_API_ROOT } from './swagger.constants';
+import { ConfigService } from '@nestjs/config';
 
-export function setupSwagger(app: INestApplication): void {
-  if (process.env.NODE_ENV === 'production') return;
+export function setupSwagger(
+  app: INestApplication,
+  configService: ConfigService,
+): void {
+  const nodeEnv = configService.get<string>('NODE_ENV') ?? 'development';
+  if (nodeEnv === 'production') return;
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
 

@@ -19,12 +19,12 @@ export class LoginDto {
   @IsNotEmpty()
   @MaxLength(50)
   @MinLength(4)
-  username: string;
+  username!: string;
 
   @ApiProperty({
     description:
       'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-    example: 'Password123!',
+    example: 'Passw0rd!',
     type: String,
   })
   @IsString()
@@ -33,5 +33,5 @@ export class LoginDto {
     message:
       'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)',
   })
-  password: string;
+  password!: string;
 }

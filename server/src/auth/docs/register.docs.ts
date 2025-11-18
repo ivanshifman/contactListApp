@@ -44,7 +44,7 @@ export function ApiRegisterDocs() {
 
     ApiResponse({
       status: 409,
-      description: 'Username already exists (Prisma P2002)',
+      description: 'Username already exists',
       schema: {
         example: {
           success: false,
@@ -52,6 +52,23 @@ export function ApiRegisterDocs() {
           timestamp: '2025-11-17T02:52:21.042Z',
           message: 'A record with the field(s) [username] already exists.',
           error: 'PrismaClientKnownRequestError',
+          stack: '...',
+          path: '/api/v1/auth/register',
+          method: 'POST',
+        },
+      },
+    }),
+
+    ApiResponse({
+      status: 429,
+      description: 'Too many requests',
+      schema: {
+        example: {
+          success: false,
+          statusCode: 429,
+          timestamp: '2025-11-17T03:02:46.882Z',
+          message: 'ThrottlerException: Too Many Requests',
+          error: 'ThrottlerException',
           stack: '...',
           path: '/api/v1/auth/register',
           method: 'POST',
