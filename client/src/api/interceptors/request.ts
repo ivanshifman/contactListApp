@@ -1,0 +1,13 @@
+import type { AxiosRequestConfigWithMeta } from "../types/axiosRequestConfigWithMeta.interface";
+
+const IS_PROD = import.meta.env.ENVIRONMENT === "production";
+
+export const requestInterceptor = (config: AxiosRequestConfigWithMeta) => {
+  if (!IS_PROD) {
+    config.metadata = { startTime: new Date() };
+    console.log(
+      `🚀 [API Request] ${config.method?.toUpperCase()} ${config.url}`
+    );
+  }
+  return config;
+};
