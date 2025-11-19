@@ -13,24 +13,19 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findOneUser(username: string) {
+    const normalized = username.toLowerCase();
     return this.prisma.user.findFirst({
-      where: {
-        username: {
-          equals: username,
-          mode: 'insensitive',
-        },
-      },
+      where: { username: normalized },
     });
   }
 
   async createUser(body: CreateUserDto): Promise<UserEntity> {
     return await this.prisma.$transaction(async (tx) => {
+      const normalizedUsername = body.username.toLowerCase();
+
       const exists = await tx.user.findFirst({
         where: {
-          username: {
-            equals: body.username,
-            mode: 'insensitive',
-          },
+          username: normalizedUsername,
         },
       });
 
@@ -42,13 +37,14 @@ export class UserService {
         genSalt: () => Promise<string>;
         hash: (data: string, salt: string) => Promise<string>;
       };
+
       const salt = await bcryptTyped.genSalt();
       const hash = await bcryptTyped.hash(body.password, salt);
 
       const newUser = await tx.user.create({
         data: {
           name: body.name,
-          username: body.username,
+          username: normalizedUsername,
           password: hash,
         },
       });

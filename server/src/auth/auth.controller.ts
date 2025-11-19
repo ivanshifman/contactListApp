@@ -50,7 +50,6 @@ export class AuthController {
     return this.authService.login(req.user as UserEntity, res);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
   @ApiCookieAuth(SWAGGER_ACCESS_COOKIE_NAME)

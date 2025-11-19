@@ -16,23 +16,6 @@ export function ApiRefreshDocs() {
     }),
 
     ApiResponse({
-      status: 401,
-      description: 'Authentication error - Missing or invalid JWT',
-      schema: {
-        example: {
-          success: false,
-          statusCode: 401,
-          timestamp: '2025-11-17T03:02:46.882Z',
-          message: 'Unauthorized',
-          error: 'UnauthorizedException',
-          stack: '...',
-          path: '/api/v1/auth/refresh',
-          method: 'POST',
-        },
-      },
-    }),
-
-    ApiResponse({
       status: 429,
       description: 'Too many requests',
       schema: {

@@ -26,7 +26,7 @@ async function bootstrap() {
   prismaService.enableShutdownHooks(app);
 
   app.enableCors({
-    origin: '*',
+    origin: configService.get<string>('CORS_ORIGIN') || 'http://localhost:5173',
     credentials: true,
   });
   app.setGlobalPrefix('api/v1');
