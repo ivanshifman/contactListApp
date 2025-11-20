@@ -3,6 +3,7 @@ import type { InternalAxiosRequestConfig } from "axios";
 import type { AxiosRequestConfigWithMeta } from "../types/axiosRequestConfigWithMeta.interface";
 import type { ApiErrorResponse } from "../types/apiErrorResponse.interface";
 import { apiClient } from "../axios-client";
+import { userStore } from "../../store/userStore";
 
 let isRefreshing = false;
 let failedQueue: Array<{
@@ -24,8 +25,11 @@ export const responseInterceptor = async (
     _retry?: boolean;
   };
 
+  const { setUser } = userStore.getState();
+
   if (
     error.response?.status === 401 &&
+    originalRequest.method !== "get" &&
     !originalRequest._retry &&
     !originalRequest.url?.includes("/auth/refresh") &&
     !originalRequest.url?.includes("/auth/login")
@@ -47,8 +51,7 @@ export const responseInterceptor = async (
       return apiClient(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError as AxiosError);
-      localStorage.removeItem("user");
-      sessionStorage.clear();
+      setUser(null);
       window.location.href = "/login";
       return Promise.reject(refreshError);
     } finally {

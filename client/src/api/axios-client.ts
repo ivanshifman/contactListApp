@@ -14,6 +14,7 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
+apiClient.defaults.validateStatus = () => true;
 apiClient.interceptors.request.use(requestInterceptor);
 apiClient.interceptors.response.use(
   successResponseInterceptor,
