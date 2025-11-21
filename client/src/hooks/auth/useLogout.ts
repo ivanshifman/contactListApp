@@ -1,24 +1,26 @@
 import { useNavigate } from "react-router";
-import { loginMethod } from "../../services/auth-service";
+import { logoutMethod } from "../../services/auth-service";
 import { useAppContext } from "../../context/useAppContext";
 import { handleApiError } from "../../api/errorHandler";
 import { showError, showSuccess } from "../../utils/toast.utils";
 
-export const useLogin = () => {
+export const useLogout = () => {
   const navigate = useNavigate();
-  const { setUser } = useAppContext();
+  const { logout } = useAppContext();
 
-  const loginUser = async (username: string, password: string) => {
+  const logoutUser = async () => {
     try {
-      const { data } = await loginMethod(username, password);
-      setUser(data.user);
-      showSuccess("Successful login.");
-      navigate("/", { replace: true });
+      await logoutMethod();
+      logout();
+      showSuccess("Logged out successfully");
+      navigate("/login", { replace: true });
     } catch (error) {
+      logout();
       const apiError = handleApiError(error);
       showError(apiError.message);
+      navigate("/login", { replace: true });
     }
   };
 
-  return { loginUser };
+  return { logoutUser };
 };
