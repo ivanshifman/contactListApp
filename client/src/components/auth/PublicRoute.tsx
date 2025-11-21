@@ -3,18 +3,18 @@ import { Navigate } from "react-router";
 import { apiClient } from "../../api/axios-client";
 import { useAppContext } from "../../context/useAppContext";
 
-interface ProtectedRouteProps {
+interface PublicRouteProps {
   children: ReactNode;
 }
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+export default function PublicRoute({ children }: PublicRouteProps) {
   const { user, setUser } = useAppContext();
-  const [loading, setLoading] = useState(true);
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
     async function verify() {
       if (user) {
-        setLoading(false);
+        setChecking(false);
         return;
       }
 
@@ -24,14 +24,13 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       } catch {
         setUser(null);
       } finally {
-        setLoading(false);
+        setChecking(false);
       }
     }
 
     verify();
   }, [user, setUser]);
 
-  if (loading) return null;
-
-  return user ? children : <Navigate to="/login" replace />;
+  if (checking) return null;
+  return user ? <Navigate to="/" replace /> : children;
 }

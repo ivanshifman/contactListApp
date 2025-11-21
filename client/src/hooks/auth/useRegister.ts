@@ -8,7 +8,7 @@ export const useRegister = () => {
   const registerUser = async (body: IRegisterBody) => {
     try {
       await registerMethod(body);
-      showSuccess("Registro exitoso.");
+      showSuccess("Successfully registered.");
       navigate("/login");
     } catch (error) {
       const apiError = handleApiError(error);
