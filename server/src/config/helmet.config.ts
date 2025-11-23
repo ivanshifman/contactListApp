@@ -6,7 +6,11 @@ export const helmetConfig = helmet({
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
-      connectSrc: ["'self'", 'https://contact-list-app-henna.vercel.app'],
+      connectSrc: [
+        "'self'",
+        'https://contact-list-app-henna.vercel.app', // frontend
+        'https://contactlistapp-back.onrender.com', // backend (self)
+      ],
       imgSrc: ["'self'", 'data:', 'https:'],
       fontSrc: ["'self'", 'data:'],
       objectSrc: ["'none'"],
@@ -20,11 +24,7 @@ export const helmetConfig = helmet({
   dnsPrefetchControl: { allow: false },
   frameguard: { action: 'deny' },
   hidePoweredBy: true,
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
+  hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
   ieNoOpen: true,
   noSniff: true,
   originAgentCluster: true,
