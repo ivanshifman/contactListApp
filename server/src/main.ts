@@ -26,7 +26,7 @@ async function bootstrap() {
   prismaService.enableShutdownHooks(app);
 
   app.enableCors({
-    origin: configService.get<string>('CORS_ORIGIN') || 'http://localhost:5173',
+    origin: configService.get<string>('CORS_ORIGIN') || 'https://contact-list-app-henna.vercel.app',
     credentials: true,
   });
   app.setGlobalPrefix('api/v1');
