@@ -1,5 +1,11 @@
-function HomePage() {
-  return <div></div>;
-}
+import ContactContainer from "../components/contact/ContactContainer";
+import NavComponent from "../components/layout/NavComponent";
 
-export default HomePage;
+export default function HomePage() {
+  return (
+    <div>
+      <NavComponent />
+      <ContactContainer />
+    </div>
+  );
+}

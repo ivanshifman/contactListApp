@@ -13,11 +13,11 @@ export const useLogout = () => {
       await logoutMethod();
       logout();
       showSuccess("Logged out successfully");
-      navigate("/login", { replace: true });
     } catch (error) {
       logout();
       const apiError = handleApiError(error);
       showError(apiError.message);
+    } finally {
       navigate("/login", { replace: true });
     }
   };
