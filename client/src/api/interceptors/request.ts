@@ -1,6 +1,6 @@
 import type { AxiosRequestConfigWithMeta } from "../types/axiosRequestConfigWithMeta.interface";
 
-const IS_PROD = import.meta.env.ENVIRONMENT === "production";
+const IS_PROD = import.meta.env.VITE_ENVIRONMENT === "production";
 
 export const requestInterceptor = (config: AxiosRequestConfigWithMeta) => {
   if (!IS_PROD) {

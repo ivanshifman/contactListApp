@@ -16,7 +16,7 @@ const processQueue = (error: AxiosError | null = null) => {
   failedQueue = [];
 };
 
-const IS_PROD = import.meta.env.ENVIRONMENT === "production";
+const IS_PROD = import.meta.env.VITE_ENVIRONMENT === "production";
 
 export const responseInterceptor = async (
   error: AxiosError<ApiErrorResponse>
