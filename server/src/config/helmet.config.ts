@@ -8,8 +8,8 @@ export const helmetConfig = helmet({
       scriptSrc: ["'self'", "'unsafe-inline'"],
       connectSrc: [
         "'self'",
-        'https://contact-list-app-henna.vercel.app', // frontend
-        'https://contactlistapp-back.onrender.com', // backend (self)
+        'https://contact-list-app-henna.vercel.app',
+        'https://contactlistapp-back.onrender.com',
       ],
       imgSrc: ["'self'", 'data:', 'https:'],
       fontSrc: ["'self'", 'data:'],

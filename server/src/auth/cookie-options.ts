@@ -5,7 +5,7 @@ export function getAccessCookieOptions(configService: ConfigService): CookieOpti
   return {
     httpOnly: true,
     secure: configService.get<string>('NODE_ENV') === 'production',
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
     maxAge: 15 * 60 * 1000,
   };
@@ -15,7 +15,7 @@ export function getRefreshCookieOptions(configService: ConfigService): CookieOpt
   return {
     httpOnly: true,
     secure: configService.get<string>('NODE_ENV') === 'production',
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/auth/refresh',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   };
