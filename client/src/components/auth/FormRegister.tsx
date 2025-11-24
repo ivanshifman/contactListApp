@@ -42,7 +42,7 @@ export default function FormRegister() {
       <input
         {...register("name")}
         type="text"
-        placeholder="Ingresa tu nombre"
+        placeholder="Insert your name"
         className="w-[90%] p-2 border border-gray-300 text-sm outline-none focus:border-2 focus:border-sky-500 transition-all rounded-md"
       />
       {errors.name && (
@@ -55,7 +55,7 @@ export default function FormRegister() {
       <input
         {...register("username")}
         type="text"
-        placeholder="Inserte el nombre de usuario"
+        placeholder="Insert your username"
         className="w-[90%] p-2 border border-gray-300 text-sm outline-none focus:border-2 focus:border-sky-500 transition-all rounded-md"
       />
       {errors.username && (
@@ -70,7 +70,7 @@ export default function FormRegister() {
       <input
         {...register("password")}
         type="password"
-        placeholder="Inserte la contraseña"
+        placeholder="Insert your password"
         className="w-[90%] p-2 border border-gray-300 text-sm outline-none focus:border-2 focus:border-sky-500 transition-all rounded-md"
       />
       {errors.password && (
@@ -85,7 +85,7 @@ export default function FormRegister() {
       <input
         {...register("confirmPassword")}
         type="password"
-        placeholder="Inserte la contraseña nuevamente"
+        placeholder="Insert password again"
         className="w-[90%] p-2 border border-gray-300 text-sm outline-none focus:border-2 focus:border-sky-500 transition-all rounded-md"
       />
       {errors.confirmPassword && (

@@ -38,7 +38,7 @@ export default function FormLogin() {
       <input
         {...register("username")}
         type="text"
-        placeholder="Inserte el nombre de usuario"
+        placeholder="Insert your username"
         className="w-[90%] p-2 border border-gray-300 text-sm outline-none focus:border-2 focus:border-sky-500 transition-all rounded-md"
       />
       {errors.username && (
@@ -53,7 +53,7 @@ export default function FormLogin() {
       <input
         {...register("password")}
         type="password"
-        placeholder="Inserte la contraseña"
+        placeholder="Insert your password"
         className="w-[90%] p-2 border border-gray-300 text-sm outline-none focus:border-2 focus:border-sky-500 transition-all rounded-md"
       />
       {errors.password && (

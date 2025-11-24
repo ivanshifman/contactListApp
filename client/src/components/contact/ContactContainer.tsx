@@ -43,7 +43,7 @@ export default function ContactContainer() {
       <div className="w-[90%] flex flex-row justify-between">
         <input
           type="text"
-          placeholder="Buscar..."
+          placeholder="Search..."
           className="p-2 text-sm outline-none border rounded-full border-gray-200 w-[80%] focus:border-2 focus:border-sky-500 transition-all"
           value={filter}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
